@@ -6,6 +6,33 @@
 #define STACK_CAPACITY 1024
 #define PROGRAM_CAPACITY 1024
 
+#define NOP() \
+    {.type = INST_NOP}
+
+#define PUSH(value) \
+    {.type = INST_PUSH, .operand = value}
+
+#define POP() \
+    {.type = INST_POP}
+
+#define DUP() \
+    {.type = INST_DUP}
+
+#define SWAP() \
+    {.type = INST_SWAP}
+
+#define ADD() \
+    {.type = INST_ADD}
+
+#define SUB() \
+    {.type = INST_SUB}
+
+#define MUL() \
+    {.type = INST_MUL}
+
+#define DIV() \
+    {.type = INST_DIV}
+
 typedef enum
 {
     ERR_STACK_OVERFLOW,
@@ -49,7 +76,6 @@ typedef struct
 
 } Mvm;
 
-// OP FUNC
 void mvm_push(Mvm *mvm, int val);
 int mvm_pop(Mvm *mvm);
 void mvm_dup(Mvm *mvm);
@@ -67,6 +93,6 @@ size_t load_prog_from_file(Mvm *mvm, const char *filename);
 Err mvm_execute_inst(Mvm *mvm, Inst inst);
 void mvm_dump_stack(Mvm *mvm);
 
-char *err_as_str(Err err);
+const char *err_as_str(Err err);
 
 #endif
