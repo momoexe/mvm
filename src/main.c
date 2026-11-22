@@ -9,11 +9,10 @@ int main()
 
     Inst prog[] = {
         PUSH(42),
-        PUSH(55),
-        ADD(),
-        PUSH(2),
-        DIV(),
-    };
+        PUSH(42),
+        CMPE(),
+        PUSH(1),
+        CMPNE()};
 
     write_prog_to_file(prog, sizeof(prog) / sizeof(prog[0]), "test.mvm");
     load_prog_from_file(&mvm, "test.mvm");

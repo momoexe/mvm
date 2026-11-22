@@ -36,9 +36,9 @@ void mvm_add(Mvm *mvm)
 
 void mvm_sub(Mvm *mvm)
 {
-    int rhs = mvm_pop(mvm);
-    int lhs = mvm_pop(mvm);
-    mvm_push(mvm, lhs - rhs);
+    int b = mvm_pop(mvm);
+    int a = mvm_pop(mvm);
+    mvm_push(mvm, a - b);
 }
 
 void mvm_mul(Mvm *mvm)
@@ -50,7 +50,35 @@ void mvm_mul(Mvm *mvm)
 
 void mvm_div(Mvm *mvm)
 {
-    int rhs = mvm_pop(mvm);
-    int lhs = mvm_pop(mvm);
-    mvm_push(mvm, lhs / rhs);
+    int b = mvm_pop(mvm);
+    int a = mvm_pop(mvm);
+    mvm_push(mvm, a / b);
+}
+
+void mvm_cmpe(Mvm *mvm)
+{
+    int a = mvm_pop(mvm);
+    int b = mvm_pop(mvm);
+    mvm_push(mvm, a == b);
+}
+
+void mvm_cmpne(Mvm *mvm)
+{
+    int a = mvm_pop(mvm);
+    int b = mvm_pop(mvm);
+    mvm_push(mvm, a != b);
+}
+
+void mvm_cmpg(Mvm *mvm)
+{
+    int b = mvm_pop(mvm);
+    int a = mvm_pop(mvm);
+    mvm_push(mvm, a > b);
+}
+
+void mvm_cmpl(Mvm *mvm)
+{
+    int b = mvm_pop(mvm);
+    int a = mvm_pop(mvm);
+    mvm_push(mvm, a < b);
 }

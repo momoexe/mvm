@@ -32,6 +32,12 @@
 #define DIV() \
     {.type = INST_DIV}
 
+#define CMPE() \
+    {.type = INST_CMPE}
+
+#define CMPNE() \
+    {.type = INST_CMPNE}
+
 typedef enum
 {
     ERR_STACK_OVERFLOW,
@@ -56,6 +62,12 @@ typedef enum
     INST_SUB,
     INST_MUL,
     INST_DIV,
+
+    // LOGIC
+    INST_CMPE,
+    INST_CMPNE,
+    INST_CMPG,
+    INST_CMPL,
 
 } InstType;
 
@@ -84,6 +96,10 @@ void mvm_add(Mvm *mvm);
 void mvm_sub(Mvm *mvm);
 void mvm_mul(Mvm *mvm);
 void mvm_div(Mvm *mvm);
+void mvm_cmpe(Mvm *mvm);
+void mvm_cmpne(Mvm *mvm);
+void mvm_cmpg(Mvm *mvm);
+void mvm_cmpl(Mvm *mvm);
 
 void write_prog_to_file(Inst *program, size_t program_size, const char *filename);
 

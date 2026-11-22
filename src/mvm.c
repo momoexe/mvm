@@ -82,6 +82,19 @@ Err mvm_execute_inst(Mvm *mvm, Inst inst)
         mvm_div(mvm);
         mvm->ip++;
         break;
+    case INST_CMPE:
+        if (mvm->sp < 2)
+            return ERR_STACK_UNDERFLOW;
+        mvm_cmpe(mvm);
+        mvm->ip++;
+        break;
+
+    case INST_CMPNE:
+        if (mvm->sp < 2)
+            return ERR_STACK_UNDERFLOW;
+        mvm_cmpne(mvm);
+        mvm->ip++;
+        break;
 
     default:
         return ERR_ILLEGAL_INST;
