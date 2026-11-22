@@ -33,16 +33,16 @@
 
 int main()
 {
-    Inst prog[] = {
-        PUSH(2),
-        PUSH(42),
-        SWAP(),
-
-    };
-    size_t program_size = sizeof(prog) / sizeof(prog[0]);
-
     Mvm mvm = {0};
-    load_prog_from_mem(&mvm, prog, program_size);
+
+    Inst prog[] = {
+        PUSH(42),
+        PUSH(55),
+        ADD(),
+    };
+
+    write_prog_to_file(prog, sizeof(prog) / sizeof(prog[0]), "test.mvm");
+    size_t program_size = load_prog_from_file(&mvm, "test.mvm");
 
     while (mvm.ip < program_size)
     {
@@ -172,6 +172,38 @@ void load_prog_from_mem(Mvm *mvm, Inst prog[], size_t program_size)
     {
         mvm->program[i] = prog[i];
     }
+}
+
+void write_prog_to_file(Inst *program, size_t program_size, const char *filename)
+{
+    FILE *fp = fopen(filename, "wb");
+    if (!fp)
+    {
+        fprintf(stderr, "ERROR: Unable to open file\n");
+        exit(1);
+    }
+
+    fwrite(program, sizeof(program[0]), program_size, fp);
+    fclose(fp);
+}
+
+size_t load_prog_from_file(Mvm *mvm, const char *filename)
+{
+    FILE *fp = fopen(filename, "rb");
+    if (!fp)
+    {
+        fprintf(stderr, "ERROR: Unable to read file\n");
+        exit(1);
+    }
+
+    fseek(fp, 0, SEEK_END);
+    int len = ftell(fp);
+    rewind(fp);
+
+    fread(mvm->program, sizeof(Inst), len / sizeof(Inst), fp);
+    fclose(fp);
+
+    return len / sizeof(Inst);
 }
 
 void mvm_push(Mvm *mvm, int val)

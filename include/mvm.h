@@ -50,7 +50,6 @@ typedef struct
 } Mvm;
 
 // OP FUNC
-
 void mvm_push(Mvm *mvm, int val);
 int mvm_pop(Mvm *mvm);
 void mvm_dup(Mvm *mvm);
@@ -60,7 +59,10 @@ void mvm_sub(Mvm *mvm);
 void mvm_mul(Mvm *mvm);
 void mvm_div(Mvm *mvm);
 
+void write_prog_to_file(Inst *program, size_t program_size, const char *filename);
+
 void load_prog_from_mem(Mvm *mvm, Inst prog[], size_t program_size);
+size_t load_prog_from_file(Mvm *mvm, const char *filename);
 
 Err mvm_execute_inst(Mvm *mvm, Inst inst);
 void mvm_dump_stack(Mvm *mvm);
