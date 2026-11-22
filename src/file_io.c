@@ -5,6 +5,8 @@
 
 void load_prog_from_mem(Mvm *mvm, Inst prog[], size_t program_size)
 {
+    mvm->program = malloc(program_size * sizeof(Inst));
+    mvm->program_size = program_size;
     for (size_t i = 0; i < program_size; i++)
     {
         mvm->program[i] = prog[i];
@@ -20,25 +22,33 @@ void write_prog_to_file(Inst *program, size_t program_size, const char *filename
         exit(1);
     }
 
-    fwrite(program, sizeof(program[0]), program_size, fp);
+    fwrite(program, sizeof(Inst), program_size, fp);
     fclose(fp);
 }
 
-size_t load_prog_from_file(Mvm *mvm, const char *filename)
+void load_prog_from_file(Mvm *mvm, const char *filename)
 {
     FILE *fp = fopen(filename, "rb");
     if (!fp)
     {
         fprintf(stderr, "ERROR: Unable to read file\n");
-        exit(1);
+        return;
     }
 
     fseek(fp, 0, SEEK_END);
-    int len = ftell(fp);
+    long len = ftell(fp);
     rewind(fp);
 
-    fread(mvm->program, sizeof(Inst), len / sizeof(Inst), fp);
-    fclose(fp);
+    mvm->program_size = (size_t)len / sizeof(Inst);
+    mvm->program = malloc(mvm->program_size * sizeof(Inst));
+    if (!mvm->program)
+    {
+        fclose(fp);
+        mvm->program_size = 0;
+        fprintf(stderr, "ERROR: Unable to allocate mem\n");
+        return;
+    }
 
-    return len / sizeof(Inst);
+    fread(mvm->program, sizeof(Inst), mvm->program_size, fp);
+    fclose(fp);
 }

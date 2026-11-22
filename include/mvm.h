@@ -4,7 +4,6 @@
 #include <stddef.h>
 
 #define STACK_CAPACITY 1024
-#define PROGRAM_CAPACITY 1024
 
 #define NOP() \
     {.type = INST_NOP}
@@ -71,7 +70,8 @@ typedef struct
     int stack[STACK_CAPACITY];
     size_t sp;
 
-    Inst program[PROGRAM_CAPACITY];
+    Inst *program;
+    size_t program_size;
     size_t ip;
 
 } Mvm;
@@ -88,7 +88,7 @@ void mvm_div(Mvm *mvm);
 void write_prog_to_file(Inst *program, size_t program_size, const char *filename);
 
 void load_prog_from_mem(Mvm *mvm, Inst prog[], size_t program_size);
-size_t load_prog_from_file(Mvm *mvm, const char *filename);
+void load_prog_from_file(Mvm *mvm, const char *filename);
 
 Err mvm_execute_inst(Mvm *mvm, Inst inst);
 void mvm_dump_stack(Mvm *mvm);
