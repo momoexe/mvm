@@ -55,6 +55,13 @@ void mvm_div(Mvm *mvm)
     mvm_push(mvm, a / b);
 }
 
+void mvm_mod(Mvm *mvm)
+{
+    int b = mvm_pop(mvm);
+    int a = mvm_pop(mvm);
+    mvm_push(mvm, a % b);
+}
+
 void mvm_cmpe(Mvm *mvm)
 {
     int a = mvm_pop(mvm);
@@ -76,9 +83,41 @@ void mvm_cmpg(Mvm *mvm)
     mvm_push(mvm, a > b);
 }
 
+void mvm_cmpge(Mvm *mvm)
+{
+    int b = mvm_pop(mvm);
+    int a = mvm_pop(mvm);
+    mvm_push(mvm, a >= b);
+}
+
 void mvm_cmpl(Mvm *mvm)
 {
     int b = mvm_pop(mvm);
     int a = mvm_pop(mvm);
     mvm_push(mvm, a < b);
+}
+void mvm_cmple(Mvm *mvm)
+{
+    int b = mvm_pop(mvm);
+    int a = mvm_pop(mvm);
+    mvm_push(mvm, a <= b);
+}
+
+void mvm_jmp(Mvm *mvm, size_t addr)
+{
+    mvm->ip = addr;
+}
+void mvm_jz(Mvm *mvm, size_t addr)
+{
+    if (mvm_pop(mvm) == 0)
+        mvm->ip = addr;
+    else
+        mvm->ip++;
+}
+void mvm_jnz(Mvm *mvm, size_t addr)
+{
+    if (mvm_pop(mvm) != 0)
+        mvm->ip = addr;
+    else
+        mvm->ip++;
 }

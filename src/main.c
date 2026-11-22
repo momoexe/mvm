@@ -8,16 +8,27 @@ int main()
     Mvm mvm = {0};
 
     Inst prog[] = {
-        PUSH(42),
-        PUSH(42),
-        CMPE(),
+        PUSH(0),
+        PUSH(5),
+        DUP(), // 2
         PUSH(1),
-        CMPNE()};
+        SUB(),
+        DUP(),
+        JZ(8),
+        JMP(2),
+        POP(), // 8
+        ADD(),
+        ADD(),
+        ADD(),
+        ADD(),
+        SWAP(),
+        POP(),
+    };
 
     write_prog_to_file(prog, sizeof(prog) / sizeof(prog[0]), "test.mvm");
     load_prog_from_file(&mvm, "test.mvm");
 
-    while (mvm.ip < mvm.program_size)
+    while (mvm.ip < mvm.program_size && !mvm.isHalted)
     {
         Inst inst = mvm.program[mvm.ip];
         Err err = mvm_execute_inst(&mvm, inst);

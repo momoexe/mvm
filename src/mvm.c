@@ -23,6 +23,10 @@ Err mvm_execute_inst(Mvm *mvm, Inst inst)
         mvm->ip++;
         break;
 
+    case INST_HALT:
+        mvm->isHalted = true;
+        break;
+
     case INST_PUSH:
         if (mvm->sp >= STACK_CAPACITY)
             return ERR_STACK_OVERFLOW;
@@ -82,6 +86,14 @@ Err mvm_execute_inst(Mvm *mvm, Inst inst)
         mvm_div(mvm);
         mvm->ip++;
         break;
+    case INST_MOD:
+        if (mvm->sp < 2)
+            return ERR_STACK_UNDERFLOW;
+        if (mvm->stack[mvm->sp - 1] == 0)
+            return ERR_MATH_ERROR;
+        mvm_mod(mvm);
+        mvm->ip++;
+        break;
     case INST_CMPE:
         if (mvm->sp < 2)
             return ERR_STACK_UNDERFLOW;
@@ -94,6 +106,49 @@ Err mvm_execute_inst(Mvm *mvm, Inst inst)
             return ERR_STACK_UNDERFLOW;
         mvm_cmpne(mvm);
         mvm->ip++;
+        break;
+    case INST_CMPG:
+        if (mvm->sp < 2)
+            return ERR_STACK_UNDERFLOW;
+        mvm_cmpg(mvm);
+        mvm->ip++;
+        break;
+    case INST_CMPGE:
+        if (mvm->sp < 2)
+            return ERR_STACK_UNDERFLOW;
+        mvm_cmpge(mvm);
+        mvm->ip++;
+        break;
+    case INST_CMPL:
+        if (mvm->sp < 2)
+            return ERR_STACK_UNDERFLOW;
+        mvm_cmpl(mvm);
+        mvm->ip++;
+        break;
+    case INST_CMPLE:
+        if (mvm->sp < 2)
+            return ERR_STACK_UNDERFLOW;
+        mvm_cmple(mvm);
+        mvm->ip++;
+        break;
+    case INST_JMP:
+        if (inst.operand < 0 || (size_t)inst.operand >= mvm->program_size)
+            return ERR_ILLEGAL_ACCESS;
+        mvm_jmp(mvm, inst.operand);
+        break;
+    case INST_JZ:
+        if (mvm->sp <= 0)
+            return ERR_STACK_UNDERFLOW;
+        if (inst.operand < 0 || (size_t)inst.operand >= mvm->program_size)
+            return ERR_ILLEGAL_ACCESS;
+        mvm_jz(mvm, inst.operand);
+        break;
+    case INST_JNZ:
+        if (mvm->sp <= 0)
+            return ERR_STACK_UNDERFLOW;
+        if (inst.operand < 0 || (size_t)inst.operand >= mvm->program_size)
+            return ERR_ILLEGAL_ACCESS;
+        mvm_jnz(mvm, inst.operand);
         break;
 
     default:
