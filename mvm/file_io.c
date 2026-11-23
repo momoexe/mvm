@@ -53,7 +53,7 @@ bool load_prog_from_file(Mvm *mvm, const char *filename)
         return false;
     }
 
-    long len = ftell(fp); // num of bytes
+    long len = ftell(fp); // Number of bytes in the file
     if (len < 0)
     {
         fclose(fp);
@@ -69,7 +69,7 @@ bool load_prog_from_file(Mvm *mvm, const char *filename)
         return false;
     }
 
-    size_t count = (size_t)len / sizeof(Inst); // num of instructions in the file
+    size_t count = (size_t)len / sizeof(Inst); // Number of instructions in the file
     if (count == 0)
     {
         fclose(fp);

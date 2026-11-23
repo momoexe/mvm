@@ -6,6 +6,7 @@
 
 #define STACK_CAPACITY 1024
 
+// Macros for constructing instructions
 #define NOP() \
     {.type = INST_NOP}
 
@@ -66,6 +67,7 @@
 #define JNZ(addr) \
     {.type = INST_JNZ, .operand = addr}
 
+// Runtime error types
 typedef enum
 {
     ERR_STACK_OVERFLOW,
@@ -77,6 +79,7 @@ typedef enum
 
 } Err;
 
+// VM instruction types
 typedef enum
 {
     // SYS
@@ -111,24 +114,27 @@ typedef enum
 
 } InstType;
 
+// A VM instruction and its optional integer operand
 typedef struct
 {
     InstType type;
     int operand;
 } Inst;
 
+// Virtual Machine struct
 typedef struct
 {
     int stack[STACK_CAPACITY];
-    size_t sp;
+    size_t sp; // stack pointer
 
-    Inst *program;
+    Inst *program; // array that contains the program ( array of instructions )
     size_t program_size;
-    size_t ip;
+    size_t ip; // Index of the next instruction to execute
 
-    bool isHalted;
+    bool isHalted; // stop the machine
 } Mvm;
 
+// Functions that execute VM instructions
 void mvm_push(Mvm *mvm, int val);
 int mvm_pop(Mvm *mvm);
 void mvm_dup(Mvm *mvm);
@@ -151,14 +157,20 @@ void mvm_jmp(Mvm *mvm, size_t addr);
 void mvm_jz(Mvm *mvm, size_t addr);
 void mvm_jnz(Mvm *mvm, size_t addr);
 
+// Writes the program as a binary instruction array to a file
 bool write_prog_to_file(Inst *program, size_t program_size, const char *filename);
 
+// Copies an instruction array into the VM
 bool load_prog_from_mem(Mvm *mvm, Inst prog[], size_t program_size);
+
+// Loads binary instructions from a file into the VM
 bool load_prog_from_file(Mvm *mvm, const char *filename);
 
+// Decodes and executes an instruction
 Err mvm_execute_inst(Mvm *mvm, Inst inst);
-void mvm_dump_stack(Mvm *mvm);
 
+// Utils
+void mvm_dump_stack(Mvm *mvm);
 const char *err_as_str(Err err);
 
 #endif

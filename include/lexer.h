@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+// Token types
 typedef enum
 {
     TOKEN_INST_NOP,
@@ -34,8 +35,7 @@ typedef enum
     TOKEN_TYPE_UNKNOWN,
 } TokenType;
 
-const char *token_type_as_str(TokenType type);
-
+// Token data returned by the lexer
 typedef struct
 {
     TokenType type;
@@ -44,6 +44,7 @@ typedef struct
     size_t character;
 } Token;
 
+// Dynamic array of tokens
 typedef struct
 {
     Token *items;
@@ -51,17 +52,32 @@ typedef struct
     size_t capacity;
 } TokenArray;
 
+// Reads one contiguous alphabetic word from the buffer
 char *read_word(char *buffer, size_t *i);
+
+// Reads one contiguous numeric sequence from the buffer
 char *read_number(char *buffer, size_t *i);
+
+// Reads an assembly source file into a null-terminated buffer
 bool load_asm(const char *filename, char **buffer);
+
+// Returns an initialized TokenArray
 TokenArray init_token_array();
+
+// Adds a token to the dynamic array
 void push_token(Token token, TokenArray *arr);
 
+// Returns an initialized Token
 Token init_token(TokenType type,
                  char *text,
                  size_t line,
                  size_t character);
 
-TokenType get_token_type(char *text);
+// Splits source text into tokens and appends them to the array
 void tokenize(char *buffer, TokenArray *arr);
+
+// Utils
+const char *token_type_as_str(TokenType type);
+TokenType get_token_type(char *text);
+
 #endif

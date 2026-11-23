@@ -180,7 +180,6 @@ int main()
         return 1;
     }
 
-    // free
     free(buffer);
     for (size_t i = 0; i < arr.size; i++)
     {
