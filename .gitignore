@@ -40,3 +40,4 @@
 bin/
 *.mvm
 .vscode/
+*.masm
