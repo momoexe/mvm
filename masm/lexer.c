@@ -115,7 +115,7 @@ void tokenize(char *buffer, TokenArray *arr)
             push_token(tok, arr);
             continue;
         }
-        else if (isdigit(ch))
+        else if (isdigit(ch) || ch == '-')
         {
             size_t tok_c = c;
             char *text = read_number(buffer, &i);
@@ -156,10 +156,12 @@ char *read_word(char *buffer, size_t *idx)
 char *read_number(char *buffer, size_t *idx)
 {
     size_t start = *idx;
-    while (isdigit(buffer[*idx]))
-    {
+
+    if (buffer[*idx] == '-')
         (*idx)++;
-    }
+
+    while (isdigit(buffer[*idx]))
+        (*idx)++;
 
     size_t len = *idx - start;
     char *num = malloc(len + 1);
@@ -278,11 +280,12 @@ TokenType get_token_type(char *text)
     {
         return TOKEN_INST_JNZ;
     }
-    else if (isdigit(text[0]))
+    else if (isdigit(text[0]) || (text[0] == '-' && text[1] != '\0'))
     {
         bool isNumber = true;
 
-        for (size_t i = 0; i < strlen(text) && isNumber; i++)
+        size_t i = text[0] == '-' ? 1 : 0;
+        for (; i < strlen(text) && isNumber; i++)
         {
             if (!isdigit(text[i]))
                 isNumber = false;
