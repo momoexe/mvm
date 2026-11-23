@@ -14,6 +14,8 @@ const char *err_as_str(Err err)
         return "ERR_MATH_ERROR";
     case ERR_OK:
         return "ERR_OK";
+    case ERR_ILLEGAL_ACCESS:
+        return "ERR_ILLEGAL_ACCESS";
     default:
         return "ERR_UNKNOWN";
     }

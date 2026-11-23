@@ -134,21 +134,21 @@ Err mvm_execute_inst(Mvm *mvm, Inst inst)
     case INST_JMP:
         if (inst.operand < 0 || (size_t)inst.operand >= mvm->program_size)
             return ERR_ILLEGAL_ACCESS;
-        mvm_jmp(mvm, inst.operand);
+        mvm_jmp(mvm, (size_t)inst.operand);
         break;
     case INST_JZ:
         if (mvm->sp <= 0)
             return ERR_STACK_UNDERFLOW;
         if (inst.operand < 0 || (size_t)inst.operand >= mvm->program_size)
             return ERR_ILLEGAL_ACCESS;
-        mvm_jz(mvm, inst.operand);
+        mvm_jz(mvm, (size_t)inst.operand);
         break;
     case INST_JNZ:
         if (mvm->sp <= 0)
             return ERR_STACK_UNDERFLOW;
         if (inst.operand < 0 || (size_t)inst.operand >= mvm->program_size)
             return ERR_ILLEGAL_ACCESS;
-        mvm_jnz(mvm, inst.operand);
+        mvm_jnz(mvm, (size_t)inst.operand);
         break;
 
     default:

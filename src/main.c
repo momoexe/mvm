@@ -10,23 +10,14 @@ int main()
     Inst prog[] = {
         PUSH(0),
         PUSH(5),
-        DUP(), // 2
-        PUSH(1),
-        SUB(),
         DUP(),
-        JZ(8),
-        JMP(2),
-        POP(), // 8
-        ADD(),
-        ADD(),
-        ADD(),
-        ADD(),
-        SWAP(),
-        POP(),
     };
 
-    write_prog_to_file(prog, sizeof(prog) / sizeof(prog[0]), "test.mvm");
-    load_prog_from_file(&mvm, "test.mvm");
+    if (!write_prog_to_file(prog, sizeof(prog) / sizeof(prog[0]), "test.mvm"))
+        return 1;
+
+    if (!load_prog_from_file(&mvm, "test.mvm"))
+        return 1;
 
     while (mvm.ip < mvm.program_size && !mvm.isHalted)
     {

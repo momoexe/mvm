@@ -151,10 +151,10 @@ void mvm_jmp(Mvm *mvm, size_t addr);
 void mvm_jz(Mvm *mvm, size_t addr);
 void mvm_jnz(Mvm *mvm, size_t addr);
 
-void write_prog_to_file(Inst *program, size_t program_size, const char *filename);
+bool write_prog_to_file(Inst *program, size_t program_size, const char *filename);
 
-void load_prog_from_mem(Mvm *mvm, Inst prog[], size_t program_size);
-void load_prog_from_file(Mvm *mvm, const char *filename);
+bool load_prog_from_mem(Mvm *mvm, Inst prog[], size_t program_size);
+bool load_prog_from_file(Mvm *mvm, const char *filename);
 
 Err mvm_execute_inst(Mvm *mvm, Inst inst);
 void mvm_dump_stack(Mvm *mvm);
