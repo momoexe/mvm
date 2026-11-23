@@ -7,15 +7,6 @@ int main()
 {
     Mvm mvm = {0};
 
-    Inst prog[] = {
-        PUSH(0),
-        PUSH(5),
-        DUP(),
-    };
-
-    if (!write_prog_to_file(prog, sizeof(prog) / sizeof(prog[0]), "test.mvm"))
-        return 1;
-
     if (!load_prog_from_file(&mvm, "test.mvm"))
         return 1;
 

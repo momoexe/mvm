@@ -6,32 +6,32 @@
 
 typedef enum
 {
-    INST_NOP,
-    INST_HALT,
+    TOKEN_INST_NOP,
+    TOKEN_INST_HALT,
 
-    INST_PUSH,
-    INST_POP,
-    INST_DUP,
-    INST_SWAP,
+    TOKEN_INST_PUSH,
+    TOKEN_INST_POP,
+    TOKEN_INST_DUP,
+    TOKEN_INST_SWAP,
 
-    INST_ADD,
-    INST_SUB,
-    INST_MUL,
-    INST_DIV,
-    INST_MOD,
+    TOKEN_INST_ADD,
+    TOKEN_INST_SUB,
+    TOKEN_INST_MUL,
+    TOKEN_INST_DIV,
+    TOKEN_INST_MOD,
 
-    INST_CMPE,
-    INST_CMPNE,
-    INST_CMPG,
-    INST_CMPGE,
-    INST_CMPL,
-    INST_CMPLE,
+    TOKEN_INST_CMPE,
+    TOKEN_INST_CMPNE,
+    TOKEN_INST_CMPG,
+    TOKEN_INST_CMPGE,
+    TOKEN_INST_CMPL,
+    TOKEN_INST_CMPLE,
 
-    INST_JMP,
-    INST_JZ,
-    INST_JNZ,
-    CONST_NUMBER,
-    TYPE_UNKNOWN,
+    TOKEN_INST_JMP,
+    TOKEN_INST_JZ,
+    TOKEN_INST_JNZ,
+    TOKEN_CONST_NUMBER,
+    TOKEN_TYPE_UNKNOWN,
 } TokenType;
 
 const char *token_type_as_str(TokenType type);

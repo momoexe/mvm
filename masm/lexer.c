@@ -45,7 +45,7 @@ bool load_asm(const char *filename, char **buffer)
         return true;
     }
 
-    char *prog = malloc(len + 1);
+    char *prog = malloc((size_t)len + 1);
     if (!prog)
     {
         fclose(fp);
@@ -53,7 +53,7 @@ bool load_asm(const char *filename, char **buffer)
         return false;
     }
 
-    if (fread(prog, 1, len, fp) != (size_t)len)
+    if (fread(prog, 1, (size_t)len, fp) != (size_t)len)
     {
         free(prog);
         fclose(fp);
@@ -200,83 +200,83 @@ TokenType get_token_type(char *text)
 {
     if (strcmp(text, "nop") == 0)
     {
-        return INST_NOP;
+        return TOKEN_INST_NOP;
     }
     else if (strcmp(text, "halt") == 0)
     {
-        return INST_HALT;
+        return TOKEN_INST_HALT;
     }
     else if (strcmp(text, "push") == 0)
     {
-        return INST_PUSH;
+        return TOKEN_INST_PUSH;
     }
     else if (strcmp(text, "pop") == 0)
     {
-        return INST_POP;
+        return TOKEN_INST_POP;
     }
     else if (strcmp(text, "dup") == 0)
     {
-        return INST_DUP;
+        return TOKEN_INST_DUP;
     }
     else if (strcmp(text, "swap") == 0)
     {
-        return INST_SWAP;
+        return TOKEN_INST_SWAP;
     }
     else if (strcmp(text, "add") == 0)
     {
-        return INST_ADD;
+        return TOKEN_INST_ADD;
     }
     else if (strcmp(text, "sub") == 0)
     {
-        return INST_SUB;
+        return TOKEN_INST_SUB;
     }
     else if (strcmp(text, "mul") == 0)
     {
-        return INST_MUL;
+        return TOKEN_INST_MUL;
     }
     else if (strcmp(text, "div") == 0)
     {
-        return INST_DIV;
+        return TOKEN_INST_DIV;
     }
     else if (strcmp(text, "mod") == 0)
     {
-        return INST_MOD;
+        return TOKEN_INST_MOD;
     }
     else if (strcmp(text, "cmpe") == 0)
     {
-        return INST_CMPE;
+        return TOKEN_INST_CMPE;
     }
     else if (strcmp(text, "cmpne") == 0)
     {
-        return INST_CMPNE;
+        return TOKEN_INST_CMPNE;
     }
     else if (strcmp(text, "cmpg") == 0)
     {
-        return INST_CMPG;
+        return TOKEN_INST_CMPG;
     }
     else if (strcmp(text, "cmpge") == 0)
     {
-        return INST_CMPGE;
+        return TOKEN_INST_CMPGE;
     }
     else if (strcmp(text, "cmpl") == 0)
     {
-        return INST_CMPL;
+        return TOKEN_INST_CMPL;
     }
     else if (strcmp(text, "cmple") == 0)
     {
-        return INST_CMPLE;
+        return TOKEN_INST_CMPLE;
     }
     else if (strcmp(text, "jmp") == 0)
     {
-        return INST_JMP;
+        return TOKEN_INST_JMP;
     }
     else if (strcmp(text, "jz") == 0)
     {
-        return INST_JZ;
+        return TOKEN_INST_JZ;
     }
     else if (strcmp(text, "jnz") == 0)
     {
-        return INST_JNZ;
+        return TOKEN_INST_JNZ;
     }
     else if (isdigit(text[0]))
     {
@@ -289,13 +289,13 @@ TokenType get_token_type(char *text)
         }
         if (isNumber)
         {
-            return CONST_NUMBER;
+            return TOKEN_CONST_NUMBER;
         }
-        return TYPE_UNKNOWN;
+        return TOKEN_TYPE_UNKNOWN;
     }
     else
     {
-        return TYPE_UNKNOWN;
+        return TOKEN_TYPE_UNKNOWN;
     }
 }
 
@@ -303,54 +303,54 @@ const char *token_type_as_str(TokenType type)
 {
     switch (type)
     {
-    case INST_NOP:
-        return "INST_NOP";
-    case INST_HALT:
-        return "INST_HALT";
+    case TOKEN_INST_NOP:
+        return "TOKEN_INST_NOP";
+    case TOKEN_INST_HALT:
+        return "TOKEN_INST_HALT";
 
-    case INST_PUSH:
-        return "INST_PUSH";
-    case INST_POP:
-        return "INST_POP";
-    case INST_DUP:
-        return "INST_DUP";
-    case INST_SWAP:
-        return "INST_SWAP";
+    case TOKEN_INST_PUSH:
+        return "TOKEN_INST_PUSH";
+    case TOKEN_INST_POP:
+        return "TOKEN_INST_POP";
+    case TOKEN_INST_DUP:
+        return "TOKEN_INST_DUP";
+    case TOKEN_INST_SWAP:
+        return "TOKEN_INST_SWAP";
 
-    case INST_ADD:
-        return "INST_ADD";
-    case INST_SUB:
-        return "INST_SUB";
-    case INST_MUL:
-        return "INST_MUL";
-    case INST_DIV:
-        return "INST_DIV";
-    case INST_MOD:
-        return "INST_MOD";
+    case TOKEN_INST_ADD:
+        return "TOKEN_INST_ADD";
+    case TOKEN_INST_SUB:
+        return "TOKEN_INST_SUB";
+    case TOKEN_INST_MUL:
+        return "TOKEN_INST_MUL";
+    case TOKEN_INST_DIV:
+        return "TOKEN_INST_DIV";
+    case TOKEN_INST_MOD:
+        return "TOKEN_INST_MOD";
 
-    case INST_CMPE:
-        return "INST_CMPE";
-    case INST_CMPNE:
-        return "INST_CMPNE";
-    case INST_CMPG:
-        return "INST_CMPG";
-    case INST_CMPGE:
-        return "INST_CMPGE";
-    case INST_CMPL:
-        return "INST_CMPL";
-    case INST_CMPLE:
-        return "INST_CMPLE";
+    case TOKEN_INST_CMPE:
+        return "TOKEN_INST_CMPE";
+    case TOKEN_INST_CMPNE:
+        return "TOKEN_INST_CMPNE";
+    case TOKEN_INST_CMPG:
+        return "TOKEN_INST_CMPG";
+    case TOKEN_INST_CMPGE:
+        return "TOKEN_INST_CMPGE";
+    case TOKEN_INST_CMPL:
+        return "TOKEN_INST_CMPL";
+    case TOKEN_INST_CMPLE:
+        return "TOKEN_INST_CMPLE";
 
-    case INST_JMP:
-        return "INST_JMP";
-    case INST_JZ:
-        return "INST_JZ";
-    case INST_JNZ:
-        return "INST_JNZ";
-    case CONST_NUMBER:
-        return "CONST_NUMBER";
-    case TYPE_UNKNOWN:
-        return "TYPE_UNKNOWN";
+    case TOKEN_INST_JMP:
+        return "TOKEN_INST_JMP";
+    case TOKEN_INST_JZ:
+        return "TOKEN_INST_JZ";
+    case TOKEN_INST_JNZ:
+        return "TOKEN_INST_JNZ";
+    case TOKEN_CONST_NUMBER:
+        return "TOKEN_CONST_NUMBER";
+    case TOKEN_TYPE_UNKNOWN:
+        return "TOKEN_TYPE_UNKNOWN";
     }
     return "";
 }
